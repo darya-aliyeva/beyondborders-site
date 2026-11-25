@@ -23,12 +23,17 @@
     shade.setAttribute('aria-hidden', 'true');
     el.append(shade);
     el._shade = shade;
+    // pause: an empty spacer keeps the stuck section fully visible for a while before the next one slides over
+    const dwell = document.createElement('i');
+    dwell.className = 'stack-dwell';
+    dwell.setAttribute('aria-hidden', 'true');
+    el.after(dwell);
     el._next = el.nextElementSibling;
-    while (el._next && (el._next.classList.contains('stack-anchor') || getComputedStyle(el._next).position === 'fixed')) el._next = el._next.nextElementSibling;
+    while (el._next && (el._next.classList.contains('stack-anchor') || el._next.classList.contains('stack-dwell') || getComputedStyle(el._next).position === 'fixed')) el._next = el._next.nextElementSibling;
     el._next?.classList.add('stack-over'); // casts the shadow while sliding over
   });
-  // tall sections stick when their bottom reaches the bottom of the screen
-  const setTops = () => stack.forEach((el) => { el.style.top = Math.min(0, innerHeight - el.offsetHeight) + 'px'; });
+  // every section sticks when its bottom reaches the bottom of the screen (short ones keep the previous section visible above)
+  const setTops = () => stack.forEach((el) => { el.style.top = (innerHeight - el.offsetHeight) + 'px'; });
   const shadeAll = () => {
     const vh = innerHeight;
     stack.forEach((el) => {
