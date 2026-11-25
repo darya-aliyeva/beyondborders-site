@@ -1,0 +1,8 @@
+# working files, not part of the site
+_source-img/
+архив/
+.claude/
+*.md
+!README.md
+.DS_Store
+Thumbs.db
