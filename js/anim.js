@@ -38,9 +38,13 @@
     const vh = innerHeight;
     stack.forEach((el) => {
       if (!el._next) return;
-      const p = Math.min(1, Math.max(0, 1 - el._next.getBoundingClientRect().top / vh));
+      const nextTop = el._next.getBoundingClientRect().top;
+      const p = Math.min(1, Math.max(0, 1 - nextTop / vh));
       const o = (p * 0.6).toFixed(3);
       if (el._shade._o !== o) { el._shade._o = o; el._shade.style.opacity = o; }
+      // once fully covered, hide it: a stuck section stays stuck till the end of the page and would show through gaps further down
+      const covered = nextTop <= Math.max(0, el.getBoundingClientRect().top) + 0.5;
+      if (el._covered !== covered) { el._covered = covered; el.style.visibility = covered ? 'hidden' : ''; }
     });
   };
   setTops();
