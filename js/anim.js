@@ -10,8 +10,8 @@
   if (reduce || !gsap || !SplitText) { ready(); return; }
 
   /* ---------- 1. stacking sections ---------- */
-  // only these blocks stick and get covered by the next one: coaches, next steps, shy kids (fear), schedule
-  const stack = [...document.querySelectorAll('#coaches, #next, #reviews, #schedule')];
+  // only these blocks stick and get covered by the next one: studio videos (covered by coaches), next steps, shy kids (fear), schedule
+  const stack = [...document.querySelectorAll('#studio, #next, #reviews, #schedule')];
   stack.forEach((el) => {
     el.classList.add('stack-item');
     const anchor = document.createElement('i'); // static position for anchor links
