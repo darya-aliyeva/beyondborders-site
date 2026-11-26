@@ -10,8 +10,8 @@
   if (reduce || !gsap || !SplitText) { ready(); return; }
 
   /* ---------- 1. stacking sections ---------- */
-  // only these blocks stick and get covered by the next one (no effect around the hero, studio videos, stage block and footer)
-  const stack = [...document.querySelectorAll('#coaches, #styles, #quiz, #reviews, #prices, #schedule, #faq')];
+  // only these blocks stick and get covered by the next one: coaches, next steps, shy kids (fear), schedule
+  const stack = [...document.querySelectorAll('#coaches, #next, #reviews, #schedule')];
   stack.forEach((el) => {
     el.classList.add('stack-item');
     const anchor = document.createElement('i'); // static position for anchor links

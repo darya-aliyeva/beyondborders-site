@@ -250,3 +250,26 @@ document.addEventListener('click', (e) => {
     fabBtn.setAttribute('aria-expanded', 'false');
   }
 });
+
+// Coaches slider on mobile: the card closest to the centre of the track turns colour while scrolling (no tap needed)
+(() => {
+  const track = document.querySelector('.coaches__list');
+  if (!track) return;
+  const mq = matchMedia('(max-width: 767px)');
+  const cards = [...track.children];
+  let raf = 0;
+  const light = () => {
+    raf = 0;
+    if (!mq.matches) { cards.forEach((c) => c.classList.remove('is-lit')); return; }
+    const t = track.getBoundingClientRect();
+    const mid = t.left + t.width / 2;
+    let best = null, dist = Infinity;
+    cards.forEach((c) => { const r = c.getBoundingClientRect(); const d = Math.abs(r.left + r.width / 2 - mid); if (d < dist) { dist = d; best = c; } });
+    cards.forEach((c) => c.classList.toggle('is-lit', c === best));
+  };
+  const queue = () => { if (!raf) raf = requestAnimationFrame(light); };
+  track.addEventListener('scroll', queue, { passive: true });
+  mq.addEventListener('change', queue);
+  addEventListener('resize', queue);
+  light();
+})();
